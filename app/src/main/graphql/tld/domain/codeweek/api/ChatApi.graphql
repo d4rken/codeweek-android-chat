@@ -1,0 +1,31 @@
+mutation createMessage($user_name: String, $content: String) {
+  insert_messages(objects: {user_name: $user_name, content: $content}) {
+    returning {
+      id
+    }
+  }
+}
+
+query getMessages {
+  messages(order_by: {created: asc}) {
+    created
+    id
+    content
+    user_name
+  }
+}
+
+subscription observeMessages {
+  messages(order_by: {created: asc}) {
+    content
+    id
+    created
+    user_name
+  }
+}
+
+mutation deleteMessage($id: uuid!) {
+  delete_messages(where: {id: {_eq: $id}}) {
+    affected_rows
+  }
+}
