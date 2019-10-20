@@ -1,0 +1,15 @@
+{
+  "name": "CodeWeek Chat API GraphQL Schema",
+  "schemaPath": "app/src/main/graphql/tld/domain/codeweek/api/schema.json",
+  "extensions": {
+    "endpoints": {
+      "CodeWeek Chat API GraphQL Endpoint": {
+        "url": "https://codingweek.herokuapp.com/v1/graphql",
+        "headers": {
+          "user-agent": "JS GraphQL"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
