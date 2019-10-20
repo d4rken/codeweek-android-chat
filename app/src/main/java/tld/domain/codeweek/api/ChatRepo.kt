@@ -25,6 +25,7 @@ class ChatRepo {
         private const val LOGTAG = "ChatRepo"
         private const val BASE_URL = "https://codingweek.herokuapp.com/v1/graphql"
         private const val BASE_URL_SUBS = "wss://codingweek.herokuapp.com/v1/graphql"
+        private const val CHANNEL_MAIN = "main"
     }
 
     private val apolloClient: ApolloClient by lazy {
@@ -97,10 +98,12 @@ class ChatRepo {
                                 Message(
                                     it.id,
                                     created = it.created,
+                                    channel = it.channel,
                                     author = it.user_name,
                                     content = it.content
                                 )
                             }
+                            ?.filter { it.channel == CHANNEL_MAIN }
                         Timber.tag(LOGTAG).d("getMessagesBlocking(): %s", messages)
                         cont.resume(messages!!)
                     }
@@ -117,8 +120,11 @@ class ChatRepo {
         return runBlocking {
             suspendCoroutine<UUID> { cont ->
                 val mutation = CreateMessageMutation.builder()
-                    .user_name(author)
-                    .content(content)
+                    .apply {
+                        channel(CHANNEL_MAIN)
+                        if (author != null) user_name(author)
+                        content(content)
+                    }
                     .build()
 
                 val callback = object : ApolloCall.Callback<CreateMessageMutation.Data>() {
@@ -184,10 +190,12 @@ class ChatRepo {
                             Message(
                                 it.id,
                                 created = it.created,
+                                channel = it.channel,
                                 author = it.user_name,
                                 content = it.content
                             )
                         }
+                        ?.filter { it.channel == CHANNEL_MAIN }
                     Timber.tag(LOGTAG).d("observeMessagesAsync(): %s", messages)
                     if (messages != null) callback(messages)
                 }
@@ -218,6 +226,7 @@ class ChatRepo {
     data class Message(
         val id: UUID,
         val created: Date,
+        val channel: String,
         val author: String,
         val content: String
     )

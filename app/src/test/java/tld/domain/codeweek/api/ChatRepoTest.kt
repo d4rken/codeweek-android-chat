@@ -42,6 +42,7 @@ class ChatRepoTest {
         val ourMessage = allMessages.single { it.id == newMessageId }
         ourMessage.author shouldBe author
         ourMessage.content shouldBe content
+        ourMessage.channel shouldBe "main"
 
         // Wait for subscription
         Thread.sleep(1000)

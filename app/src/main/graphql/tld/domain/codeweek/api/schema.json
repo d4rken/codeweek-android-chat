@@ -231,6 +231,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "channel",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "content",
             "description": "column name",
             "isDeprecated": false,
@@ -273,6 +279,16 @@
         "description": "ordering options when selecting data from \"messages\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "content",
             "description": null,
@@ -406,6 +422,16 @@
                 "name": "messages_bool_exp",
                 "ofType": null
               }
+            },
+            "defaultValue": null
+          },
+          {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "INPUT_OBJECT",
+              "name": "String_comparison_exp",
+              "ofType": null
             },
             "defaultValue": null
           },
@@ -911,6 +937,22 @@
         "description": "columns and relationships of \"messages\"",
         "fields": [
           {
+            "name": "channel",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "NON_NULL",
+              "name": null,
+              "ofType": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "content",
             "description": null,
             "args": [],
@@ -1109,6 +1151,18 @@
         "description": "aggregate max on columns",
         "fields": [
           {
+            "name": "channel",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "content",
             "description": null,
             "args": [],
@@ -1155,6 +1209,18 @@
         "name": "messages_min_fields",
         "description": "aggregate min on columns",
         "fields": [
+          {
+            "name": "channel",
+            "description": null,
+            "args": [],
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
           {
             "name": "content",
             "description": null,
@@ -1375,6 +1441,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "content",
             "description": null,
             "type": {
@@ -1492,6 +1568,12 @@
         "interfaces": null,
         "enumValues": [
           {
+            "name": "channel",
+            "description": "column name",
+            "isDeprecated": false,
+            "deprecationReason": null
+          },
+          {
             "name": "content",
             "description": "column name",
             "isDeprecated": false,
@@ -1524,6 +1606,16 @@
         "description": "input type for updating data in table \"messages\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "SCALAR",
+              "name": "String",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "content",
             "description": null,
@@ -2668,6 +2760,16 @@
         "fields": null,
         "inputFields": [
           {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
+          {
             "name": "content",
             "description": null,
             "type": {
@@ -2708,6 +2810,16 @@
         "description": "order by min() on columns of table \"messages\"",
         "fields": null,
         "inputFields": [
+          {
+            "name": "channel",
+            "description": null,
+            "type": {
+              "kind": "ENUM",
+              "name": "order_by",
+              "ofType": null
+            },
+            "defaultValue": null
+          },
           {
             "name": "content",
             "description": null,
