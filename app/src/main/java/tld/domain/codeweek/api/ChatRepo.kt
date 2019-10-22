@@ -1,5 +1,7 @@
 package tld.domain.codeweek.api
 
+import android.os.Handler
+import android.os.Looper
 import com.apollographql.apollo.ApolloCall
 import com.apollographql.apollo.ApolloClient
 import com.apollographql.apollo.ApolloSubscriptionCall
@@ -116,13 +118,19 @@ class ChatRepo {
         }
     }
 
+    fun sendMessageAsync(author: String?, content: String) {
+        Thread {
+            sendMessageBlocking(author, content)
+        }.start()
+    }
+
     fun sendMessageBlocking(author: String?, content: String): UUID {
         return runBlocking {
             suspendCoroutine<UUID> { cont ->
                 val mutation = CreateMessageMutation.builder()
                     .apply {
                         channel(CHANNEL_MAIN)
-                        if (author != null) user_name(author)
+                        if (author.isNullOrBlank()) user_name(author)
                         content(content)
                     }
                     .build()
@@ -176,6 +184,7 @@ class ChatRepo {
 
     fun observeMessagesAsync(callback: (List<Message>) -> Unit): Cancelable {
         val subscription = apolloClient.subscribe(ObserveMessagesSubscription())
+        val uiHandler = Handler(Looper.getMainLooper())
 
         val subscriptionCallback =
             object : ApolloSubscriptionCall.Callback<ObserveMessagesSubscription.Data> {
@@ -197,7 +206,9 @@ class ChatRepo {
                         }
                         ?.filter { it.channel == CHANNEL_MAIN }
                     Timber.tag(LOGTAG).d("observeMessagesAsync(): %s", messages)
-                    if (messages != null) callback(messages)
+                    if (messages != null) {
+                        uiHandler.post { callback(messages) }
+                    }
                 }
 
                 override fun onConnected() {
@@ -219,7 +230,10 @@ class ChatRepo {
         return object : Cancelable {
             override fun isCanceled(): Boolean = subscription.isCanceled
 
-            override fun cancel() = subscription.cancel()
+            override fun cancel() {
+                subscription.cancel()
+                uiHandler.removeCallbacksAndMessages(null)
+            }
         }
     }
 
