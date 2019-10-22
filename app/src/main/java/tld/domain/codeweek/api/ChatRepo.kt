@@ -155,6 +155,12 @@ class ChatRepo {
         }
     }
 
+    fun deleteMessageAsync(id: UUID) {
+        Thread {
+            deleteMessageBlocking(id)
+        }.start()
+    }
+
     fun deleteMessageBlocking(id: UUID): Boolean {
         return runBlocking {
             suspendCoroutine<Boolean> { cont ->
