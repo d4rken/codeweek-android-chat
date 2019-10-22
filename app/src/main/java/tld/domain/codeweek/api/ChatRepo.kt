@@ -130,7 +130,7 @@ class ChatRepo {
                 val mutation = CreateMessageMutation.builder()
                     .apply {
                         channel(CHANNEL_MAIN)
-                        if (author.isNullOrBlank()) user_name(author)
+                        if (!author.isNullOrEmpty()) user_name(author)
                         content(content)
                     }
                     .build()
