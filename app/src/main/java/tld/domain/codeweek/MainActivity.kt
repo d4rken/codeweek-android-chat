@@ -32,6 +32,8 @@ class MainActivity : AppCompatActivity() {
 
         val zeitFormatierer = DateFormat.getTimeFormat(this)
 
+        var aktuelleNachrichten = emptyList<ChatRepo.Message>()
+
         // Zeigt die Nachrichten an
         chatVerbindung.observeMessagesAsync { messages ->
             listenUpdater.clear()
@@ -47,8 +49,20 @@ class MainActivity : AppCompatActivity() {
                 listenUpdater.add(output)
             }
             listenUpdater.notifyDataSetChanged()
+
+            aktuelleNachrichten = messages
+
             chatAnzeige.scrollX
             nachrichtenZaehler.text = "${messages.size} Nachrichten"
+        }
+
+        // Lange gedrückt Nachricht
+        chatAnzeige.setOnItemLongClickListener { adapterView, view, position, code ->
+            val nachricht = aktuelleNachrichten[position]
+
+            chatVerbindung.deleteMessageAsync(nachricht.id)
+
+            return@setOnItemLongClickListener true
         }
 
         nachrichtenEingabe.addTextChangedListener {
