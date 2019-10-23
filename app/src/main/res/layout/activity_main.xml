@@ -62,4 +62,13 @@
         android:text="0 Zeichen"
         app:layout_constraintBottom_toTopOf="@+id/input_text"
         app:layout_constraintStart_toStartOf="@+id/input_text" />
+
+    <Button
+        android:id="@+id/ohoh_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="ohohoh"
+        app:layout_constraintEnd_toStartOf="@+id/message_counter"
+        app:layout_constraintStart_toEndOf="@+id/input_name"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

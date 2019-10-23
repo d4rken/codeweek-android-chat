@@ -40,11 +40,8 @@ class MainActivity : AppCompatActivity() {
             for (msg in messages) {
                 var name = msg.author
                 if (name.isBlank()) name = "<Unbekannt>"
-
                 val nachricht = msg.content
-
                 val zeit = zeitFormatierer.format(msg.created)
-
                 val output = "$zeit - $name: $nachricht"
                 listenUpdater.add(output)
             }
@@ -89,8 +86,17 @@ class MainActivity : AppCompatActivity() {
         namensEingabe.addTextChangedListener {
             einstellungen.edit().putString("name", namensEingabe.text.toString()).apply()
         }
-    }
 
+        val ohohButton = findViewById<Button>(R.id.ohoh_button)
+        ohohButton.setOnClickListener {
+            Thread {
+                val nachrichten = chatVerbindung.getMessagesBlocking()
+                for (alteN in nachrichten) {
+                    chatVerbindung.deleteMessageBlocking(alteN.id)
+                }
+            }.start()
+        }
+    }
 
     override fun onDestroy() {
         running?.cancel()
