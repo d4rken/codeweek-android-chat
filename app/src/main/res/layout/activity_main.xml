@@ -7,13 +7,15 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <ListView
-        android:id="@+id/chat_window"
+    <TextView
+        android:id="@+id/chattext2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:stackFromBottom="true"
-        android:transcriptMode="alwaysScroll"
-        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:gravity="bottom"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
         app:layout_constraintBottom_toTopOf="@+id/text_counter"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -51,7 +53,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="0 Nachrichten"
-        app:layout_constraintBottom_toTopOf="@+id/chat_window"
+        app:layout_constraintBottom_toTopOf="@+id/chattext2"
         app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView

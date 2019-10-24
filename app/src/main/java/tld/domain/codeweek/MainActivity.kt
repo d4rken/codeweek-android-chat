@@ -3,7 +3,10 @@ package tld.domain.codeweek
 import android.content.Context
 import android.os.Bundle
 import android.text.format.DateFormat
-import android.widget.*
+import android.text.method.ScrollingMovementMethod
+import android.widget.Button
+import android.widget.EditText
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import com.apollographql.apollo.internal.util.Cancelable
@@ -20,22 +23,21 @@ class MainActivity : AppCompatActivity() {
 
         val chatVerbindung = ChatRepo()
 
-        val chatAnzeige: ListView = findViewById(R.id.chat_window)
+        val chatText2 = findViewById<TextView>(R.id.chattext2)
         val nachrichtenEingabe: EditText = findViewById(R.id.input_text)
         val namensEingabe: EditText = findViewById(R.id.input_name)
         val nachrichtenZaehler: TextView = findViewById(R.id.message_counter)
         val buchstabenZaehler: TextView = findViewById(R.id.text_counter)
         val sendenKnopf: Button = findViewById(R.id.action_send)
 
-        val listenUpdater = ArrayAdapter<String>(this, R.layout.view_chat_line, R.id.chattext)
-        chatAnzeige.adapter = listenUpdater
-
         val zeitFormatierer = DateFormat.getTimeFormat(this)
+        chatText2.movementMethod = ScrollingMovementMethod()
 
         // Zeigt die Nachrichten an
         chatVerbindung.observeMessagesAsync { messages ->
-            listenUpdater.clear()
-            for (msg in messages) {
+            val filteredMessages = messages
+            var addierer = ""
+            for (msg in filteredMessages) {
                 var name = msg.author
                 if (name.isBlank()) name = "<Unbekannt>"
 
@@ -44,11 +46,12 @@ class MainActivity : AppCompatActivity() {
                 val zeit = zeitFormatierer.format(msg.created)
 
                 val output = "$zeit - $name: $nachricht"
-                listenUpdater.add(output)
+                addierer = addierer + "\n" + output
             }
-            listenUpdater.notifyDataSetChanged()
-            chatAnzeige.scrollX
-            nachrichtenZaehler.text = "${messages.size} Nachrichten"
+
+            chatText2.text = addierer
+
+            nachrichtenZaehler.text = "${filteredMessages.size} Nachrichten"
         }
 
         nachrichtenEingabe.addTextChangedListener {
